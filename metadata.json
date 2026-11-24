@@ -1,0 +1,8 @@
+{
+  "name": "صيدلية الرأفة للأدوية",
+  "description": "الموقع الرسمي لصيدلية الرأفة للأدوية — خدمة صيدلانية متواصلة على مدار 24 ساعة، صرف الوصفات الطبية، استشارات دوائية متخصصة، ومستلزمات العناية الصحية.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
