@@ -10,15 +10,12 @@ import {
   Trash2,
   X,
 } from 'lucide-react';
-import {
-  PHARMACY_ADDRESS,
-  PHARMACY_PHONE_DISPLAY,
-  PHARMACY_WHATSAPP_INTL,
-  STORE_PRODUCTS,
-} from '../data/pharmacyData';
+import { PharmacyProduct, SiteSettings } from '../data/pharmacyData';
 import { ResilientImage } from './ResilientImage';
 
 interface CartDrawerProps {
+  products: PharmacyProduct[];
+  settings: SiteSettings;
   isOpen: boolean;
   onClose: () => void;
   cart: Record<string, number>;
@@ -29,10 +26,9 @@ interface CartDrawerProps {
 type FulfillmentMethod = 'delivery' | 'pickup';
 type PaymentMethod = 'الدفع عند الاستلام' | 'شبكة مدى' | 'Apple Pay';
 
-const FREE_DELIVERY_THRESHOLD = 150;
-const DELIVERY_FEE = 15;
-
 export function CartDrawer({
+  products,
+  settings,
   isOpen,
   onClose,
   cart,
@@ -67,12 +63,15 @@ export function CartDrawer({
 
   if (!isOpen) return null;
 
-  const cartItems = STORE_PRODUCTS.filter((p) => (cart[p.id] || 0) > 0).map(
-    (product) => ({
+  const freeDeliveryThreshold = settings.freeDeliveryThreshold;
+  const deliveryFee = settings.deliveryFee;
+
+  const cartItems = products
+    .filter((p) => (cart[p.id] || 0) > 0)
+    .map((product) => ({
       product,
       quantity: cart[product.id],
-    })
-  );
+    }));
 
   const subtotal = Number(
     cartItems
@@ -81,13 +80,13 @@ export function CartDrawer({
   );
 
   const deliveryCost =
-    fulfillment === 'pickup' || subtotal >= FREE_DELIVERY_THRESHOLD || subtotal === 0
+    fulfillment === 'pickup' || subtotal >= freeDeliveryThreshold || subtotal === 0
       ? 0
-      : DELIVERY_FEE;
+      : deliveryFee;
 
   const total = Number((subtotal + deliveryCost).toFixed(2));
   const remainingForFreeDelivery = Number(
-    Math.max(0, FREE_DELIVERY_THRESHOLD - subtotal).toFixed(2)
+    Math.max(0, freeDeliveryThreshold - subtotal).toFixed(2)
   );
 
   const handleCheckout = (e: FormEvent) => {
@@ -119,13 +118,13 @@ export function CartDrawer({
 
     const fulfillmentLabel =
       fulfillment === 'pickup'
-        ? `استلام من الفرع خلال ١٥ دقيقة (${PHARMACY_ADDRESS})`
+        ? `استلام من الفرع خلال ١٥ دقيقة (${settings.address})`
         : `توصيل داخل تبوك - ${district.trim()}`;
 
     const deliveryLabel = deliveryCost === 0 ? 'مجاني' : `${deliveryCost} ر.س`;
 
     const messageText = [
-      '*طلب شراء جديد — صيدلية الرأفة للأدوية*',
+      `*طلب شراء جديد — ${settings.pharmacyName}*`,
       `رقم الطلب: ${orderId}`,
       '',
       '*بيانات العميل:*',
@@ -142,7 +141,7 @@ export function CartDrawer({
       `*الإجمالي النهائي: ${total} ر.س*`,
     ].join('\n');
 
-    const whatsappUrl = `https://wa.me/${PHARMACY_WHATSAPP_INTL}?text=${encodeURIComponent(
+    const whatsappUrl = `https://wa.me/${settings.whatsappIntl}?text=${encodeURIComponent(
       messageText
     )}`;
 
@@ -239,7 +238,7 @@ export function CartDrawer({
                     ({confirmedOrder.payment})
                     <br />
                     {confirmedOrder.method === 'pickup'
-                      ? `جاهز للاستلام خلال ١٥ دقيقة من فرعنا (${PHARMACY_ADDRESS}).`
+                      ? `جاهز للاستلام خلال ١٥ دقيقة من فرعنا (${settings.address}).`
                       : 'سيتم تجهيز طلبك وتوصيله إليك داخل تبوك فور استلام الرسالة على واتساب.'}
                   </p>
                 </div>
@@ -256,7 +255,7 @@ export function CartDrawer({
                   <span>
                     إرسال الطلب عبر واتساب (
                     <span dir="ltr" className="tabular-nums">
-                      {PHARMACY_PHONE_DISPLAY}
+                      {settings.phoneDisplay}
                     </span>
                     )
                   </span>
@@ -541,7 +540,7 @@ export function CartDrawer({
             <p className="text-[11px] text-center text-[#435570]">
               سيتم إرسال تفاصيل الطلب مباشرة إلى واتساب الصيدلية{' '}
               <span dir="ltr" className="font-semibold text-[#0B1B36] tabular-nums">
-                {PHARMACY_PHONE_DISPLAY}
+                {settings.phoneDisplay}
               </span>
             </p>
           </div>

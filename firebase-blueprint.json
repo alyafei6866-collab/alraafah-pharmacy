@@ -1,0 +1,198 @@
+{
+  "entities": {
+    "SiteSettings": {
+      "title": "SiteSettings",
+      "description": "Public storefront, contact, regulatory registration, and delivery configuration for Al-Ra'fah Pharmacy.",
+      "type": "object",
+      "properties": {
+        "pharmacyName": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "tagline": { "type": "string", "minLength": 2, "maxLength": 200 },
+        "email": { "type": "string", "minLength": 5, "maxLength": 120 },
+        "phoneDisplay": { "type": "string", "minLength": 8, "maxLength": 30 },
+        "whatsappIntl": { "type": "string", "minLength": 8, "maxLength": 30 },
+        "address": { "type": "string", "minLength": 4, "maxLength": 200 },
+        "coords": { "type": "string", "minLength": 5, "maxLength": 80 },
+        "mapsUrl": { "type": "string", "minLength": 10, "maxLength": 400 },
+        "hoursLabel": { "type": "string", "minLength": 2, "maxLength": 80 },
+        "commercialReg": { "type": "string", "minLength": 4, "maxLength": 40 },
+        "licenseNumber": { "type": "string", "minLength": 4, "maxLength": 40 },
+        "vatNumber": { "type": "string", "minLength": 4, "maxLength": 40 },
+        "heroEyebrow": { "type": "string", "minLength": 2, "maxLength": 200 },
+        "heroTitle": { "type": "string", "minLength": 4, "maxLength": 200 },
+        "heroSubtitle": { "type": "string", "minLength": 10, "maxLength": 500 },
+        "heroImageSrc": { "type": "string", "minLength": 5, "maxLength": 600 },
+        "storeTitle": { "type": "string", "minLength": 4, "maxLength": 200 },
+        "storeSubtitle": { "type": "string", "minLength": 10, "maxLength": 500 },
+        "freeDeliveryThreshold": { "type": "number" },
+        "deliveryFee": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "pharmacyName",
+        "tagline",
+        "email",
+        "phoneDisplay",
+        "whatsappIntl",
+        "address",
+        "coords",
+        "mapsUrl",
+        "hoursLabel",
+        "commercialReg",
+        "licenseNumber",
+        "vatNumber",
+        "heroEyebrow",
+        "heroTitle",
+        "heroSubtitle",
+        "heroImageSrc",
+        "storeTitle",
+        "storeSubtitle",
+        "freeDeliveryThreshold",
+        "deliveryFee",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Pharmacy storefront product catalog item.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string", "minLength": 2, "maxLength": 160 },
+        "category": { "type": "string", "minLength": 2, "maxLength": 60 },
+        "size": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "price": { "type": "number" },
+        "originalPrice": { "type": "number" },
+        "imageSrc": { "type": "string", "minLength": 5, "maxLength": 600 },
+        "imageAlt": { "type": "string", "minLength": 2, "maxLength": 200 },
+        "shortNote": { "type": "string", "minLength": 2, "maxLength": 240 },
+        "description": { "type": "string", "minLength": 5, "maxLength": 1000 },
+        "pharmacistTip": { "type": "string", "minLength": 5, "maxLength": 600 },
+        "stockNote": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "sortOrder": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "name",
+        "category",
+        "size",
+        "price",
+        "imageSrc",
+        "imageAlt",
+        "shortNote",
+        "description",
+        "pharmacistTip",
+        "stockNote",
+        "sortOrder",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "FaqItem": {
+      "title": "FaqItem",
+      "description": "Frequently asked question displayed on the storefront.",
+      "type": "object",
+      "properties": {
+        "question": { "type": "string", "minLength": 4, "maxLength": 300 },
+        "answer": { "type": "string", "minLength": 5, "maxLength": 1200 },
+        "sortOrder": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["question", "answer", "sortOrder", "createdAt", "updatedAt"]
+    },
+    "Department": {
+      "title": "Department",
+      "description": "Pharmacy department summary and item highlights.",
+      "type": "object",
+      "properties": {
+        "index": { "type": "string", "minLength": 1, "maxLength": 10 },
+        "name": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "summary": { "type": "string", "minLength": 5, "maxLength": 400 },
+        "guidance": { "type": "string", "minLength": 5, "maxLength": 500 },
+        "items": { "type": "array" },
+        "sortOrder": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "index",
+        "name",
+        "summary",
+        "guidance",
+        "items",
+        "sortOrder",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "GalleryPhoto": {
+      "title": "GalleryPhoto",
+      "description": "Storefront and interior photo gallery item.",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string", "minLength": 2, "maxLength": 200 },
+        "category": { "type": "string", "minLength": 2, "maxLength": 80 },
+        "subtitle": { "type": "string", "minLength": 2, "maxLength": 200 },
+        "description": { "type": "string", "minLength": 5, "maxLength": 600 },
+        "imageSrc": { "type": "string", "minLength": 5, "maxLength": 600 },
+        "imageAlt": { "type": "string", "minLength": 2, "maxLength": 200 },
+        "aspectClass": { "type": "string", "minLength": 4, "maxLength": 40 },
+        "featured": { "type": "boolean" },
+        "sortOrder": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "title",
+        "category",
+        "subtitle",
+        "description",
+        "imageSrc",
+        "imageAlt",
+        "aspectClass",
+        "featured",
+        "sortOrder",
+        "createdAt",
+        "updatedAt"
+      ]
+    },
+    "AdminRecord": {
+      "title": "AdminRecord",
+      "description": "Read-only allowlisted administrator record.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "maxLength": 120 },
+        "role": { "type": "string", "maxLength": 30 }
+      },
+      "required": ["email", "role"]
+    }
+  },
+  "firestore": {
+    "/siteSettings/{settingId}": {
+      "schema": { "$ref": "#/entities/SiteSettings" },
+      "description": "Public storefront configuration and official pharmacy contact/license settings (settingId = 'main')."
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Public pharmacy product catalog managed by verified administrators."
+    },
+    "/faqs/{faqId}": {
+      "schema": { "$ref": "#/entities/FaqItem" },
+      "description": "Public FAQ entries managed by verified administrators."
+    },
+    "/departments/{deptId}": {
+      "schema": { "$ref": "#/entities/Department" },
+      "description": "Public pharmacy departments managed by verified administrators."
+    },
+    "/gallery/{photoId}": {
+      "schema": { "$ref": "#/entities/GalleryPhoto" },
+      "description": "Public pharmacy photo gallery entries managed by verified administrators."
+    },
+    "/admins/{adminId}": {
+      "schema": { "$ref": "#/entities/AdminRecord" },
+      "description": "Server-provisioned admin allowlist documents."
+    }
+  }
+}

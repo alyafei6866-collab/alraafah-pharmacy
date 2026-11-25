@@ -10,11 +10,12 @@ const NAV_LINKS = [
 ];
 
 interface NavbarProps {
+  pharmacyName: string;
   cartCount: number;
   onOpenCart: () => void;
 }
 
-export function Navbar({ cartCount, onOpenCart }: NavbarProps) {
+export function Navbar({ pharmacyName, cartCount, onOpenCart }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLinkClick = () => {
@@ -46,7 +47,7 @@ export function Navbar({ cartCount, onOpenCart }: NavbarProps) {
               strokeLinecap="round"
             />
           </svg>
-          <span>صيدلية الرأفة للأدوية</span>
+          <span>{pharmacyName}</span>
         </a>
 
         {/* Zone 2: Clean Single-Line Nav Links (Desktop) */}

@@ -3,19 +3,22 @@ import { ChevronLeft, ChevronRight, Maximize2, X } from 'lucide-react';
 import {
   GALLERY_CATEGORIES,
   GalleryCategory,
-  PHOTO_CARDS,
   PharmacyPhotoCard,
 } from '../data/pharmacyData';
 import { ResilientImage } from './ResilientImage';
 
-export function PhotoGallerySection() {
+interface PhotoGallerySectionProps {
+  gallery: PharmacyPhotoCard[];
+}
+
+export function PhotoGallerySection({ gallery }: PhotoGallerySectionProps) {
   const [selectedCategory, setSelectedCategory] = useState<GalleryCategory>('الكل');
   const [activeCardId, setActiveCardId] = useState<string | null>(null);
 
   const filteredCards =
     selectedCategory === 'الكل'
-      ? PHOTO_CARDS
-      : PHOTO_CARDS.filter((card) => card.category === selectedCategory);
+      ? gallery
+      : gallery.filter((card) => card.category === selectedCategory);
 
   const activeIndex = activeCardId
     ? filteredCards.findIndex((c) => c.id === activeCardId)

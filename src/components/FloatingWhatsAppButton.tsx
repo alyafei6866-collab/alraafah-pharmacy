@@ -1,4 +1,4 @@
-import { PHARMACY_WHATSAPP_LINK } from '../data/pharmacyData';
+import { PHARMACY_WHATSAPP_INTL } from '../data/pharmacyData';
 
 export function WhatsAppIcon({ className = 'w-5 h-5' }: { className?: string }) {
   return (
@@ -13,10 +13,22 @@ export function WhatsAppIcon({ className = 'w-5 h-5' }: { className?: string }) 
   );
 }
 
-export function FloatingWhatsAppButton() {
+interface FloatingWhatsAppButtonProps {
+  whatsappIntl?: string;
+  pharmacyName?: string;
+}
+
+export function FloatingWhatsAppButton({
+  whatsappIntl = PHARMACY_WHATSAPP_INTL,
+  pharmacyName = 'صيدلية الرأفة للأدوية',
+}: FloatingWhatsAppButtonProps) {
+  const link = `https://wa.me/${whatsappIntl}?text=${encodeURIComponent(
+    `السلام عليكم، أود التواصل مع ${pharmacyName}.`
+  )}`;
+
   return (
     <a
-      href={PHARMACY_WHATSAPP_LINK}
+      href={link}
       target="_blank"
       rel="noopener noreferrer"
       aria-label="تواصل مباشرة عبر واتساب الصيدلية"

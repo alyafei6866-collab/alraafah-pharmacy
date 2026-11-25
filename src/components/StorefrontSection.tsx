@@ -4,7 +4,6 @@ import {
   PRODUCT_CATEGORIES,
   PharmacyProduct,
   ProductCategory,
-  STORE_PRODUCTS,
 } from '../data/pharmacyData';
 import { ResilientImage } from './ResilientImage';
 
@@ -14,6 +13,9 @@ export interface CartItem {
 }
 
 interface StorefrontSectionProps {
+  products: PharmacyProduct[];
+  storeTitle: string;
+  storeSubtitle: string;
   searchQuery: string;
   onSearchChange: (q: string) => void;
   cart: Record<string, number>;
@@ -23,6 +25,9 @@ interface StorefrontSectionProps {
 }
 
 export function StorefrontSection({
+  products,
+  storeTitle,
+  storeSubtitle,
   searchQuery,
   onSearchChange,
   cart,
@@ -36,7 +41,7 @@ export function StorefrontSection({
     null
   );
 
-  const filteredProducts = STORE_PRODUCTS.filter((product) => {
+  const filteredProducts = products.filter((product) => {
     const matchesCategory =
       selectedCategory === 'الكل' || product.category === selectedCategory;
     const q = searchQuery.trim().toLowerCase();
@@ -74,12 +79,10 @@ export function StorefrontSection({
               className="text-2xl sm:text-3xl font-bold text-[#0B1B36] tracking-tight"
               style={{ textWrap: 'balance' }}
             >
-              منتجات مختارة من صيدلية الرأفة للأدوية
+              {storeTitle}
             </h2>
             <p className="mt-2 text-sm sm:text-base text-[#435570] max-w-2xl">
-              اطلب مستلزمات الأم والطفل، العناية الطبية بالبشرة، الفيتامينات،
-              والأجهزة المنزلية مع التوصيل داخل تبوك أو الاستلام الفوري من
-              الفرع.
+              {storeSubtitle}
             </p>
           </div>
 
@@ -97,7 +100,7 @@ export function StorefrontSection({
                 type="search"
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                placeholder="ابحث عن هيومانا، بيودرما، سنسوداين، بنادول، فيشي، فاتيكا..."
+                placeholder="ابحث عن بنادول، بروسبان، برونشيكير، فيفادول، بروفين..."
                 className="w-full min-h-[44px] pr-10 pl-4 py-2.5 text-sm rounded-xl border border-[#DCE4EF] bg-white text-[#0B1B36] placeholder:text-[#435570]/70 focus:border-[#0B3C8A] focus:outline-none transition-colors"
               />
             </div>

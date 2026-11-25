@@ -1,21 +1,31 @@
 import { useMemo, useState } from 'react';
 import { Search } from 'lucide-react';
-import { DEPARTMENTS, PharmacyDepartment } from '../data/pharmacyData';
+import { PharmacyDepartment } from '../data/pharmacyData';
 
-export function DepartmentsSection() {
+interface DepartmentsSectionProps {
+  departments: PharmacyDepartment[];
+  phoneDisplay: string;
+}
+
+export function DepartmentsSection({
+  departments,
+  phoneDisplay,
+}: DepartmentsSectionProps) {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedId, setSelectedId] = useState<string>(DEPARTMENTS[0].id);
+  const [selectedId, setSelectedId] = useState<string>(departments[0]?.id || '');
+
+  const phoneLink = `tel:+966${phoneDisplay.replace(/^0/, '')}`;
 
   const filteredDepartments = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
-    if (!query) return DEPARTMENTS;
-    return DEPARTMENTS.filter(
+    if (!query) return departments;
+    return departments.filter(
       (dept) =>
         dept.name.toLowerCase().includes(query) ||
         dept.summary.toLowerCase().includes(query) ||
         dept.items.some((item) => item.toLowerCase().includes(query))
     );
-  }, [searchQuery]);
+  }, [searchQuery, departments]);
 
   const activeDepartment: PharmacyDepartment | undefined =
     filteredDepartments.find((d) => d.id === selectedId) ??
@@ -163,7 +173,7 @@ export function DepartmentsSection() {
                   </p>
 
                   <a
-                    href="tel:+966509563821"
+                    href={phoneLink}
                     className="inline-flex items-center justify-center min-h-[44px] px-5 py-2.5 rounded-lg bg-[#0B3C8A] hover:bg-[#072B66] text-white text-sm font-semibold transition-colors whitespace-nowrap shrink-0"
                   >
                     اتصل للاستفسار

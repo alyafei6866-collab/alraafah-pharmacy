@@ -1,13 +1,15 @@
 import { useState } from 'react';
 import { ChevronDown, Phone } from 'lucide-react';
-import {
-  FAQ_ITEMS,
-  PHARMACY_PHONE_DISPLAY,
-  PHARMACY_PHONE_LINK,
-} from '../data/pharmacyData';
+import { FaqItem } from '../data/pharmacyData';
 
-export function FaqSection() {
-  const [openId, setOpenId] = useState<string | null>(FAQ_ITEMS[0].id);
+interface FaqSectionProps {
+  faqs: FaqItem[];
+  phoneDisplay: string;
+}
+
+export function FaqSection({ faqs, phoneDisplay }: FaqSectionProps) {
+  const [openId, setOpenId] = useState<string | null>(faqs[0]?.id || null);
+  const phoneLink = `tel:+966${phoneDisplay.replace(/^0/, '')}`;
 
   const toggleItem = (id: string) => {
     setOpenId((prev) => (prev === id ? null : id));
@@ -41,13 +43,13 @@ export function FaqSection() {
                 هل لديك استفسار دوائي آخر؟
               </p>
               <a
-                href={PHARMACY_PHONE_LINK}
+                href={phoneLink}
                 className="inline-flex items-center justify-center gap-2 min-h-[44px] px-5 py-2.5 rounded-xl bg-[#0B3C8A] hover:bg-[#072B66] text-white text-sm font-semibold transition-colors tabular-nums"
               >
                 <Phone className="w-4 h-4 shrink-0" />
                 <span>تواصل مع الصيدلي</span>
                 <span dir="ltr" className="text-[#F4C400]">
-                  {PHARMACY_PHONE_DISPLAY}
+                  {phoneDisplay}
                 </span>
               </a>
             </div>
@@ -55,7 +57,7 @@ export function FaqSection() {
 
           {/* Accordion List */}
           <div className="lg:col-span-8 divide-y divide-[#DCE4EF] border-y border-[#DCE4EF] bg-white rounded-2xl border-x px-5 sm:px-7">
-            {FAQ_ITEMS.map((item) => {
+            {faqs.map((item) => {
               const isOpen = openId === item.id;
               return (
                 <div key={item.id}>

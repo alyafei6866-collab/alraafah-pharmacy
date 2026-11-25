@@ -1,44 +1,49 @@
 import { FormEvent } from 'react';
 import { ArrowUpLeft, MapPin, Phone, Search } from 'lucide-react';
-import {
-  GOOGLE_MAPS_URL,
-  PHARMACY_ADDRESS,
-  PHARMACY_PHONE_DISPLAY,
-  PHARMACY_PHONE_LINK,
-  PHARMACY_WHATSAPP_LINK,
-} from '../data/pharmacyData';
+import { SiteSettings } from '../data/pharmacyData';
 import { WhatsAppIcon } from './FloatingWhatsAppButton';
 import { ResilientImage } from './ResilientImage';
 
-const HERO_STANDARDS = [
-  {
-    value: '٢٤ / ٧',
-    label: 'خدمة متواصلة يومياً',
-    detail: 'دون انقطاع طوال الأسبوع',
-  },
-  {
-    value: '١٥ دقيقة',
-    label: 'استلام فوري من الفرع',
-    detail: 'تجهيز الطلبات قبل الوصول',
-  },
-  {
-    value: 'توصيل سريع',
-    label: 'داخل مدينة تبوك',
-    detail: 'مجاني للطلبات من ١٥٠ ر.س',
-  },
-  {
-    value: 'مدى · Apple Pay',
-    label: 'خيارات دفع مرنة',
-    detail: 'أو الدفع عند الاستلام',
-  },
-];
-
 interface HeroSectionProps {
+  settings: SiteSettings;
   searchQuery: string;
   onSearchChange: (q: string) => void;
 }
 
-export function HeroSection({ searchQuery, onSearchChange }: HeroSectionProps) {
+export function HeroSection({
+  settings,
+  searchQuery,
+  onSearchChange,
+}: HeroSectionProps) {
+  const phoneDigits = settings.phoneDisplay.replace(/^0/, '');
+  const phoneLink = `tel:+966${phoneDigits}`;
+  const whatsappLink = `https://wa.me/${settings.whatsappIntl}?text=${encodeURIComponent(
+    `السلام عليكم، أود التواصل مع ${settings.pharmacyName}.`
+  )}`;
+
+  const heroStandards = [
+    {
+      value: '٢٤ / ٧',
+      label: 'خدمة متواصلة يومياً',
+      detail: 'دون انقطاع طوال الأسبوع',
+    },
+    {
+      value: '١٥ دقيقة',
+      label: 'استلام فوري من الفرع',
+      detail: 'تجهيز الطلبات قبل الوصول',
+    },
+    {
+      value: 'توصيل سريع',
+      label: 'داخل مدينة تبوك',
+      detail: `مجاني للطلبات من ${settings.freeDeliveryThreshold} ر.س`,
+    },
+    {
+      value: 'مدى · Apple Pay',
+      label: 'خيارات دفع مرنة',
+      detail: 'أو الدفع عند الاستلام',
+    },
+  ];
+
   const handleHeroSearch = (e: FormEvent) => {
     e.preventDefault();
     const storeEl = document.getElementById('store');
@@ -54,7 +59,7 @@ export function HeroSection({ searchQuery, onSearchChange }: HeroSectionProps) {
           <div className="lg:col-span-6 flex flex-col justify-between py-2 lg:py-3">
             <div>
               <p className="text-sm font-semibold text-[#0B3C8A] mb-3">
-                {PHARMACY_ADDRESS} · دوام متواصل ٢٤ ساعة
+                {settings.heroEyebrow}
               </p>
 
               <h1
@@ -64,13 +69,11 @@ export function HeroSection({ searchQuery, onSearchChange }: HeroSectionProps) {
                   textWrap: 'balance',
                 }}
               >
-                صيدلية الرأفة للأدوية — متجرك الصحي الموثوق على مدار الساعة
+                {settings.heroTitle}
               </h1>
 
               <p className="mt-4 text-base sm:text-lg text-[#435570] leading-relaxed max-w-xl">
-                تسوّق مستلزمات الأم والطفل، العناية الطبية بالبشرة، الفيتامينات،
-                والأجهزة المنزلية مع التوصيل داخل تبوك أو الاستلام الفوري من
-                فرع حي الروضة خلال ١٥ دقيقة.
+                {settings.heroSubtitle}
               </p>
 
               {/* Storefront Hero Quick Search */}
@@ -80,7 +83,7 @@ export function HeroSection({ searchQuery, onSearchChange }: HeroSectionProps) {
               >
                 <div className="relative flex-1">
                   <label htmlFor="hero-store-search" className="sr-only">
-                    ابحث في صيدلية الرأفة
+                    ابحث في المتجر
                   </label>
                   <Search
                     aria-hidden="true"
@@ -113,7 +116,7 @@ export function HeroSection({ searchQuery, onSearchChange }: HeroSectionProps) {
               </a>
 
               <a
-                href={GOOGLE_MAPS_URL}
+                href={settings.mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 rounded-xl border border-[#DCE4EF] bg-[#F8FAFC] hover:bg-[#EEF3FA] text-[#0B1B36] text-sm font-medium transition-colors whitespace-nowrap shrink-0"
@@ -124,15 +127,15 @@ export function HeroSection({ searchQuery, onSearchChange }: HeroSectionProps) {
               </a>
 
               <a
-                href={PHARMACY_PHONE_LINK}
+                href={phoneLink}
                 className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 rounded-xl border border-[#F4C400] bg-[#F4C400]/20 hover:bg-[#F4C400]/35 text-[#0B1B36] text-sm font-semibold transition-colors whitespace-nowrap shrink-0 tabular-nums"
               >
                 <Phone className="w-4 h-4 text-[#0B3C8A] shrink-0" />
-                <span dir="ltr">{PHARMACY_PHONE_DISPLAY}</span>
+                <span dir="ltr">{settings.phoneDisplay}</span>
               </a>
 
               <a
-                href={PHARMACY_WHATSAPP_LINK}
+                href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 min-h-[44px] px-4 py-2.5 rounded-xl bg-[#15803D] hover:bg-[#166534] text-white text-sm font-semibold transition-colors whitespace-nowrap shrink-0"
@@ -147,17 +150,17 @@ export function HeroSection({ searchQuery, onSearchChange }: HeroSectionProps) {
           <div className="lg:col-span-6">
             <div className="relative h-full min-h-[280px] sm:min-h-[360px] lg:min-h-[420px] rounded-2xl overflow-hidden border border-[#DCE4EF] bg-[#071D42]">
               <ResilientImage
-                src="/src/assets/images/hero_pharmacy_clean_1795549326778.jpg"
-                alt="الواجهة الرئيسية لصيدلية الرأفة للأدوية في تبوك، حي الروضة، شارع المتنبي"
-                fallbackTitle="صيدلية الرأفة للأدوية"
+                src={settings.heroImageSrc}
+                alt={`الواجهة الرئيسية لـ ${settings.pharmacyName}`}
+                fallbackTitle={settings.pharmacyName}
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#071D42]/95 via-[#071D42]/55 to-transparent p-5 sm:p-6">
                 <p className="text-sm font-bold text-[#F4C400]">
-                  صيدلية الرأفة للأدوية — تبوك
+                  {settings.pharmacyName}
                 </p>
                 <p className="text-xs sm:text-sm text-white/90 mt-0.5">
-                  حي الروضة، شارع المتنبي · خدمة متواصلة ٢٤ ساعة طوال الأسبوع
+                  {settings.address} · خدمة متواصلة {settings.hoursLabel}
                 </p>
               </div>
             </div>
@@ -166,7 +169,7 @@ export function HeroSection({ searchQuery, onSearchChange }: HeroSectionProps) {
 
         {/* Full-Width 4-Column Service Standards Strip */}
         <div className="mt-10 pt-8 border-t border-[#DCE4EF] grid grid-cols-2 lg:grid-cols-4 gap-6">
-          {HERO_STANDARDS.map((item) => (
+          {heroStandards.map((item) => (
             <div key={item.label} className="flex flex-col">
               <span className="text-xl sm:text-2xl font-bold text-[#0B3C8A] tabular-nums">
                 {item.value}
